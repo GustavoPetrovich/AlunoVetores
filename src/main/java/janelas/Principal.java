@@ -4,19 +4,29 @@
  */
 package janelas;
 
+import Objetos.Aluno;
+import java.awt.Component;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+
 /**
  *
  * @author gustavo.rpetrovich
  */
 public class Principal extends javax.swing.JFrame {
-
+    private int contador = 0;
+    private Aluno [] alunos = new Aluno[5];
+    private JP jp;
     /**
      * Creates new form Principal
      */
     public Principal() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        jLtopo.setText("CADASTRO ALUNO " + (contador + 1));
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -26,22 +36,133 @@ public class Principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPResult = new javax.swing.JScrollPane();
+        jLtopo = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTnome = new javax.swing.JTextField();
+        jTidade = new javax.swing.JTextField();
+        jBadicionar = new javax.swing.JButton();
+        jBcadnova = new javax.swing.JButton();
+        jBmostrar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLtopo.setText("CADASTRO ALUNO 1");
+
+        jLabel2.setText("Nome:");
+
+        jLabel3.setText("Idade:");
+
+        jBadicionar.setText("Adicionar");
+        jBadicionar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBadicionarActionPerformed(evt);
+            }
+        });
+
+        jBcadnova.setText("Cadastrar Novamente");
+
+        jBmostrar.setText("Mostrar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jBmostrar)
+                    .addComponent(jPResult, javax.swing.GroupLayout.PREFERRED_SIZE, 403, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBcadnova)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTnome))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTidade, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(59, 59, 59)
+                        .addComponent(jBadicionar)))
+                .addContainerGap(10, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLtopo)
+                .addGap(162, 162, 162))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLtopo)
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jTnome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBadicionar))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTidade, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(jBmostrar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPResult, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jBcadnova)
+                .addGap(16, 16, 16))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jBadicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBadicionarActionPerformed
+        Aluno a = new Aluno();
+        
+        if (contador < alunos.length){
+            a.setNome(jTnome.getText());
+            a.setIdade(Integer.parseInt(jTidade.getText()));
+            alunos[contador] = a;
+            jTnome.setText("");
+            jTidade.setText("");
+            jTnome.requestFocus();
+            contador++;
+            jLtopo.setText("CADASTRO ALUNO " + (contador + 1));
+            
+            if (contador == 5){
+                jTnome.setEnabled(false);
+                jTidade.setEnabled(false);
+                jBadicionar.setEnabled(false);
+                mostrarCadastro();
+            }
+        } else {
+            jBadicionar.setEnabled(false);
+        }
+    }//GEN-LAST:event_jBadicionarActionPerformed
+    
+    private void mostrarCadastro(){
+        jPResult.setLayout(new BoxLayout(jPResult, BoxLayout.Y_AXIS));
+        
+        for (Aluno aluno : alunos){
+            jp = new JP();
+            for (Component comp : jp.getComponents()){
+                if (comp instanceof JLabel && "jLnome".equals(comp.getName())){
+                    JLabel labelnome = (JLabel) comp;
+                    labelnome.setText(aluno.getNome());
+                }
+                if (comp instanceof JLabel && "jLidade".equals(comp.getName())){
+                    JLabel labelIdade = (JLabel) comp;
+                    labelIdade.setText(String.valueOf(aluno.getIdade()));
+                }
+            }
+            jPResult.add(jp);
+        }
+        jPResult.revalidate();
+        jPResult.repaint();
+    }
     /**
      * @param args the command line arguments
      */
@@ -78,5 +199,14 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jBadicionar;
+    private javax.swing.JButton jBcadnova;
+    private javax.swing.JButton jBmostrar;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLtopo;
+    private javax.swing.JScrollPane jPResult;
+    private javax.swing.JTextField jTidade;
+    private javax.swing.JTextField jTnome;
     // End of variables declaration//GEN-END:variables
 }
